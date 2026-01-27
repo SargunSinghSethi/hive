@@ -75,8 +75,23 @@ Aden es una plataforma para construir, desplegar, operar y adaptar agentes de IA
 git clone https://github.com/adenhq/hive.git
 cd hive
 
-# Ejecutar configuración del entorno Python
+# Ejecutar configuración del entorno Python (Python del sistema)
 ./scripts/setup-python.sh
+
+# Opcional: usar un entorno virtual (recomendado para desarrollo local)
+  USE_VENV=1 ./scripts/setup-python.sh
+
+  # Activar el entorno virtual (si se usa)
+  
+    # macOS / Linux
+    source .venv/bin/activate
+
+    # Windows (Git Bash)
+    source .venv/Scripts/activate
+
+    # Windows (PowerShell)
+    .venv\Scripts\Activate.ps1
+
 ```
 
 Esto instala:

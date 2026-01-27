@@ -75,8 +75,22 @@ Aden은 AI 에이전트를 구축, 배포, 운영, 적응시키기 위한 플랫
 git clone https://github.com/adenhq/hive.git
 cd hive
 
-# Python 환경 설정 실행
+# Python 환경 설정 실행 (시스템 Python 사용)
 ./scripts/setup-python.sh
+
+# 선택 사항: 가상 환경 사용 (로컬 개발에 권장)
+  USE_VENV=1 ./scripts/setup-python.sh
+
+  # 가상 환경 활성화 (사용하는 경우)
+  
+    # macOS / Linux
+    source .venv/bin/activate
+
+    # Windows (Git Bash)
+    source .venv/Scripts/activate
+
+    # Windows (PowerShell)
+    .venv\Scripts\Activate.ps1
 ```
 
 다음 요소들이 설치됩니다:

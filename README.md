@@ -81,7 +81,8 @@ cd hive
 # Optional: Use a virtual environment (recommended for local development)
   USE_VENV=1 ./scripts/setup-python.sh
 
-  # After setup, activate the virtual environment;
+  # After setup, activate the virtual environment (if used)
+  
     # macOS / Linux
     source .venv/bin/activate
 

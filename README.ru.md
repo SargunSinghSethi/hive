@@ -75,8 +75,22 @@ Aden — это платформа для создания, развёртыва
 git clone https://github.com/adenhq/hive.git
 cd hive
 
-# Запустить настройку окружения Python
+# Запустить настройку окружения Python (используется системный Python)
 ./scripts/setup-python.sh
+
+# Необязательно: использовать виртуальное окружение (рекомендуется для локальной разработки)
+  USE_VENV=1 ./scripts/setup-python.sh
+
+  # Активация виртуального окружения (если используется)
+  
+    # macOS / Linux
+    source .venv/bin/activate
+
+    # Windows (Git Bash)
+    source .venv/Scripts/activate
+
+    # Windows (PowerShell)
+    .venv\Scripts\Activate.ps1
 ```
 
 Это установит:

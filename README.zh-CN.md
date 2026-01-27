@@ -75,8 +75,22 @@ Aden 是一个用于构建、部署、运营和适应 AI 智能体的平台：
 git clone https://github.com/adenhq/hive.git
 cd hive
 
-# 运行 Python 环境设置
+# 运行 Python 环境设置（使用系统 Python）
 ./scripts/setup-python.sh
+
+# 可选：使用虚拟环境（推荐用于本地开发）
+  USE_VENV=1 ./scripts/setup-python.sh
+
+  # 激活虚拟环境（如果使用）
+  
+    # macOS / Linux
+    source .venv/bin/activate
+
+    # Windows (Git Bash)
+    source .venv/Scripts/activate
+
+    # Windows (PowerShell)
+    .venv\Scripts\Activate.ps1
 ```
 
 这将安装：
