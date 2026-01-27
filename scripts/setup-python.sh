@@ -18,6 +18,8 @@ NC='\033[0m' # No Color
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+USE_VENV=${USE_VENV:-0}
+VENV_DIR="$PROJECT_ROOT/.venv"
 
 echo ""
 echo "=================================================="
@@ -26,22 +28,20 @@ echo "=================================================="
 echo ""
 
 # Check for Python
-if ! command -v python &> /dev/null && ! command -v python3 &> /dev/null; then
+if command -v python &> /dev/null; then
+    BASE_PYTHON="python"
+elif command -v python3 &> /dev/null; then
+    BASE_PYTHON="python3"
+else
     echo -e "${RED}Error: Python is not installed.${NC}"
     echo "Please install Python 3.11+ from https://python.org"
     exit 1
 fi
 
-# Use python3 if available, otherwise python
-PYTHON_CMD="python3"
-if ! command -v python3 &> /dev/null; then
-    PYTHON_CMD="python"
-fi
-
 # Check Python version
-PYTHON_VERSION=$($PYTHON_CMD -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
-PYTHON_MAJOR=$($PYTHON_CMD -c 'import sys; print(sys.version_info.major)')
-PYTHON_MINOR=$($PYTHON_CMD -c 'import sys; print(sys.version_info.minor)')
+PYTHON_VERSION=$($BASE_PYTHON -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+PYTHON_MAJOR=$($BASE_PYTHON -c 'import sys; print(sys.version_info.major)')
+PYTHON_MINOR=$($BASE_PYTHON -c 'import sys; print(sys.version_info.minor)')
 
 echo -e "${BLUE}Detected Python:${NC} $PYTHON_VERSION"
 
@@ -59,6 +59,30 @@ fi
 
 echo -e "${GREEN}✓${NC} Python version check passed"
 echo ""
+
+# Virtual Environment Setup
+if [ "$USE_VENV" -eq 1 ]; then
+    if [ ! -d "$VENV_DIR" ]; then
+        echo -e "${BLUE}Creating virtual environment (.venv)...${NC}"
+        $BASE_PYTHON -m venv "$VENV_DIR"
+        echo -e "${GREEN}✓${NC} Virtual environment created"
+    else
+        echo -e "${GREEN}✓${NC} Using existing virtual environment"
+    fi
+
+    # Resolve venv python
+    if [ -f "$VENV_DIR/Scripts/python.exe" ]; then
+        PYTHON_CMD="$VENV_DIR/Scripts/python"
+    elif [ -f "$VENV_DIR/bin/python" ]; then
+        PYTHON_CMD="$VENV_DIR/bin/python"
+    else
+        echo -e "${RED}Error: Could not find venv python executable${NC}"
+        exit 1
+    fi
+else
+    PYTHON_CMD="$BASE_PYTHON"
+    echo -e "${GREEN}✓${NC} Using system Python: $($PYTHON_CMD --version)"
+fi
 
 # Check for pip
 if ! $PYTHON_CMD -m pip --version &> /dev/null; then
@@ -189,6 +213,14 @@ echo "  • aden_tools (tools and MCP servers)"
 echo "  • All dependencies and compatibility fixes applied"
 echo ""
 echo "To run agents, use:"
+echo ""
+if [ "$USE_VENV" -eq 1 ]; then
+    echo ""
+    echo "Activate the virtual environment:"
+    echo "  macOS / Linux: source .venv/bin/activate"
+    echo "  Windows (Git Bash): source .venv/Scripts/activate"
+    echo "  Windows (PowerShell): .venv\\Scripts\\Activate.ps1"
+fi
 echo ""
 echo "  ${BLUE}# From project root:${NC}"
 echo "  PYTHONPATH=core:exports python -m agent_name validate"
