@@ -105,7 +105,7 @@ cd hive
 ./quickstart.sh
 
 # Создать агента с помощью Claude Code
-claude> /building-agents
+claude> /building-agents-construction
 
 # Протестировать агента
 claude> /testing-agent
@@ -251,7 +251,7 @@ hive/
 # - Все зависимости
 
 # Создать новых агентов с помощью навыков Claude Code
-claude> /building-agents
+claude> /building-agents-construction
 
 # Протестировать агентов
 claude> /testing-agent
